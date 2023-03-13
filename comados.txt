@@ -1,0 +1,2 @@
+npm run dev //Iniciar un servidor local para ver 
+los cambios de la interfaz
