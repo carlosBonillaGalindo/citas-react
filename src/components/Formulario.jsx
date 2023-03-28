@@ -1,12 +1,49 @@
 import { useState, useEffect } from "react";
+import Error  from "./Error";
 
-function Formulario(){
+function Formulario({pacientes, setPacientes}){
 
     const [nombre, setNombre] = useState('');
     const [propietario, setPropietario] = useState('');
     const [email, setEmail] = useState('');
     const [fecha, setFecha] = useState('');
     const [sintomas, setSintomas] = useState('');
+
+    const [error, setError] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Validacion del formulario
+        if ([nombre, propietario, email, fecha, sintomas].includes('')){
+            console.log('Hay al menos un campo vacio');
+            setError(true);
+            return;
+        }
+        setError(false)
+
+        // Objeto de Paciente
+         const objetoPaciente = {
+            nombre,
+            propietario,
+            email,
+            fecha,
+            sintomas
+         }
+
+         //cambia el arreglo a tráves del modificador
+
+         setPacientes([...pacientes, objetoPaciente]);
+
+         // Reiniciar el formulario
+
+         setNombre('')
+         setPropietario('')
+         setEmail('')
+         setFecha('')
+         setSintomas('')
+
+    }
 
 
     return(
@@ -16,7 +53,9 @@ function Formulario(){
                 Añade Pacientes y {''}
                 <span className="text-indigo-600 font-bold">Administralos</span>
             </p>
-            <form action="" className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
+                {error && <Error mensaje = "Todos los campos son obligatorios"></Error>
+                }
                 <div className="mb-5">
                     <label htmlFor="mascota" className="block text-gray-700 uppercase font-bold">Nombre Mascota</label>
                     <input 
